@@ -6,6 +6,7 @@ import com.globallogic.demo.model.dto.request.PhoneRequest;
 import com.globallogic.demo.model.dto.request.UserRequest;
 import com.globallogic.demo.model.dto.response.UserResponse;
 import com.globallogic.demo.repository.UserRepository;
+import com.globallogic.demo.util.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,9 @@ public class UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private JWTUtil jwtUtil;
 
     public UserResponse addUser(UserRequest userRequest){
         List<PhoneEntity> phones = Optional.ofNullable(userRequest.getPhones()).orElse(Collections.emptyList())
@@ -44,6 +48,7 @@ public class UserService {
         userResponse.setActive(userEntity.getActive());
         userResponse.setCreated(userEntity.getCreated());
         userResponse.setLastLogin(userEntity.getLastLogin());
+        userResponse.setToken(jwtUtil.generateToken(userEntity.getEmail()));
 
         return userResponse;
     }
