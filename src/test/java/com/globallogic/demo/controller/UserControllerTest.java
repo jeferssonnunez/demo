@@ -1,23 +1,22 @@
 package com.globallogic.demo.controller;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.globallogic.demo.model.dto.request.UserRequest;
 import com.globallogic.demo.model.dto.response.UserResponse;
 import com.globallogic.demo.service.UserService;
 import com.globallogic.demo.util.UserRequestBuilder;
-import org.apache.catalina.User;
+import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -31,10 +30,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 @WebMvcTest(UserController.class)
+@AutoConfigureMockMvc(addFilters = false)
 class UserControllerTest {
     @Autowired
     private MockMvc mvc;
@@ -44,6 +42,14 @@ class UserControllerTest {
 
     @Autowired
     private ObjectMapper mapper;
+
+    @Autowired
+    private WebApplicationContext webApplicationContext;
+
+    @Before("")
+    public void setup() {
+        mvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+    }
 
     @Test
     public void givenUser_whenSaveUser_thenReturnJsonUser()
@@ -61,6 +67,7 @@ class UserControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.active", is(userResponseMock.getActive())));
     }
+
     @ParameterizedTest(name = "#{index} - Run test with wrong request = {0}")
     @MethodSource("invalidRequestProvider")
     public void givenUserWithInvalidRequest_whenSaveUser_thenReturnJsonError()
@@ -93,10 +100,11 @@ class UserControllerTest {
 
         return Stream.of(
                 userRequestInvalidEmailMock,
-                userRequestInvalidPasswordMock// empty
-                );                        // empty
+                userRequestInvalidPasswordMock
+        );
     }
-    private UserResponse getUserResponse(){
+
+    private UserResponse getUserResponse() {
         UserResponse userResponse = new UserResponse();
         userResponse.setId(UUID.randomUUID());
         userResponse.setCreated(Instant.now());

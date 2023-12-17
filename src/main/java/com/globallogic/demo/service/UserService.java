@@ -7,6 +7,7 @@ import com.globallogic.demo.model.dto.request.UserRequest;
 import com.globallogic.demo.model.dto.response.UserResponse;
 import com.globallogic.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -20,12 +21,15 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public UserResponse addUser(UserRequest userRequest){
         List<PhoneEntity> phones = Optional.ofNullable(userRequest.getPhones()).orElse(Collections.emptyList())
                 .stream().map(PhoneRequest::toPhoneEntity).collect(Collectors.toList());
 
         UserEntity userEntity = new UserEntity();
-        userEntity.setPassword(userRequest.getPassword());
+        userEntity.setPassword(passwordEncoder.encode(userRequest.getPassword()));
         userEntity.setPhones(phones);
         userEntity.setEmail(userRequest.getEmail());
         userEntity.setName(userRequest.getName());
