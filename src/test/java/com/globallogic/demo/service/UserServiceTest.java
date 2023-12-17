@@ -33,14 +33,4 @@ class UserServiceTest {
 
         verify(userRepository).save(any());
     }
-
-    private UserRequest getUserRequest(){
-        UserRequest userRequest = new UserRequest();
-
-        userRequest.setEmail("test@test.com");
-        userRequest.setName("test");
-        userRequest.setPassword("pass");
-
-        return userRequest;
-    }
 }
