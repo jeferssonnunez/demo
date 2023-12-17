@@ -1,5 +1,7 @@
 package com.globallogic.demo.model.entities;
 
+import com.globallogic.demo.model.dto.response.PhoneResponse;
+
 import javax.persistence.*;
 import java.util.UUID;
 
@@ -16,8 +18,8 @@ public class PhoneEntity {
 
     private String countryCode;
 
-    @ManyToOne
-    @JoinColumn(name="user_id", nullable=false)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="user_id")
     private UserEntity user;
 
     public PhoneEntity(){
@@ -62,5 +64,14 @@ public class PhoneEntity {
 
     public void setUser(UserEntity user) {
         this.user = user;
+    }
+
+    public PhoneResponse toDto(){
+        PhoneResponse phoneResponse = new PhoneResponse();
+
+        phoneResponse.setNumber(this.number);
+        phoneResponse.setCityCode(this.cityCode);
+        phoneResponse.setCountryCode(this.countryCode);
+        return phoneResponse;
     }
 }

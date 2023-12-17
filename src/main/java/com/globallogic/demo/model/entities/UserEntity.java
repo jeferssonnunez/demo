@@ -2,12 +2,10 @@ package com.globallogic.demo.model.entities;
 
 import com.globallogic.demo.model.entities.PhoneEntity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.Instant;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import static javax.persistence.CascadeType.ALL;
@@ -30,8 +28,8 @@ public class UserEntity {
 
     private Boolean isActive = Boolean.TRUE;
 
-    @OneToMany(cascade=ALL, mappedBy="user")
-    private List<PhoneEntity> phones;
+    @OneToMany(cascade= ALL, mappedBy="user")
+    private Set<PhoneEntity> phones;
 
     public UserEntity() {
         // Empty
@@ -93,11 +91,11 @@ public class UserEntity {
         isActive = active;
     }
 
-    public List<PhoneEntity> getPhones() {
+    public Set<PhoneEntity> getPhones() {
         return phones;
     }
 
-    public void setPhones(List<PhoneEntity> phones) {
+    public void setPhones(Set<PhoneEntity> phones) {
         this.phones = phones;
     }
 }
