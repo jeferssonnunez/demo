@@ -3,6 +3,7 @@ package com.globallogic.demo.service;
 import com.globallogic.demo.model.dto.request.UserRequest;
 import com.globallogic.demo.model.entities.UserEntity;
 import com.globallogic.demo.repository.UserRepository;
+import com.globallogic.demo.util.UserRequestBuilder;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,10 +25,11 @@ class UserServiceTest {
     @Test
     public void whenValidUser_thenSaveUser() {
         UserEntity userEntityMock = mock(UserEntity.class);
+        UserRequest userRequestMock = new UserRequestBuilder().buildUserRequest();
 
         when(userRepository.save(any())).thenReturn(userEntityMock);
 
-        userService.addUser(getUserRequest());
+        userService.addUser(userRequestMock);
 
         verify(userRepository).save(any());
     }
