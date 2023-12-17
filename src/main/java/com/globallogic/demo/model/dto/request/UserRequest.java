@@ -1,19 +1,32 @@
 package com.globallogic.demo.model.dto.request;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 public class UserRequest {
 
     private String name;
 
+    @Email(message = "Email wrong format", regexp = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$")
     private String email;
 
+    @Size(message = "Password wrong size", min = 8, max = 12)
+    @Pattern(message = "Password wrong format", regexp = "^((.*[a-z].*)(.*[A-Z].*)(.*\\d.*))$")
     private String password;
 
     private List<PhoneRequest> phones;
 
-    public UserRequest(){
+    public UserRequest() {
         // Empty
+    }
+
+    public UserRequest(String name, String email, String password, List<PhoneRequest> phones) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.phones = phones;
     }
 
     public String getName() {
