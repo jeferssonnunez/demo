@@ -1,5 +1,7 @@
 package com.globallogic.demo.model.dto.request;
 
+import com.globallogic.demo.model.entities.PhoneEntity;
+
 public class PhoneRequest {
 
     private Long number;
@@ -34,5 +36,14 @@ public class PhoneRequest {
 
     public void setCountryCode(String countryCode) {
         this.countryCode = countryCode;
+    }
+
+    public PhoneEntity toPhoneEntity(){
+        PhoneEntity phoneEntity = new PhoneEntity();
+        phoneEntity.setNumber(this.getNumber());
+        phoneEntity.setCityCode(this.getCityCode());
+        phoneEntity.setCountryCode(this.getCountryCode());
+
+        return phoneEntity;
     }
 }
