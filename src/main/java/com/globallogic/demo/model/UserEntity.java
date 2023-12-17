@@ -1,6 +1,7 @@
 package com.globallogic.demo.model;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.time.Instant;
@@ -12,6 +13,7 @@ import static javax.persistence.CascadeType.ALL;
 @Entity
 @Table(name = "users")
 public class UserEntity {
+    @Id
     private UUID id;
 
     private String name;

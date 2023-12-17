@@ -1,15 +1,13 @@
 package com.globallogic.demo.model;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.UUID;
 
 @Entity
 @Table(name = "phones")
 public class PhoneEntity {
 
+    @Id
     private UUID id;
 
     private Long number;
