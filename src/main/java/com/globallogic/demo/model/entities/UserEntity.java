@@ -1,4 +1,6 @@
-package com.globallogic.demo.model;
+package com.globallogic.demo.model.entities;
+
+import com.globallogic.demo.model.entities.PhoneEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -14,7 +16,7 @@ import static javax.persistence.CascadeType.ALL;
 @Table(name = "users")
 public class UserEntity {
     @Id
-    private UUID id;
+    private UUID id = UUID.randomUUID();
 
     private String name;
 

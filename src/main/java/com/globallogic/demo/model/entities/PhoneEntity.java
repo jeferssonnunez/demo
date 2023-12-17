@@ -1,4 +1,4 @@
-package com.globallogic.demo.model;
+package com.globallogic.demo.model.entities;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -8,7 +8,7 @@ import java.util.UUID;
 public class PhoneEntity {
 
     @Id
-    private UUID id;
+    private UUID id = UUID.randomUUID();
 
     private Long number;
 
