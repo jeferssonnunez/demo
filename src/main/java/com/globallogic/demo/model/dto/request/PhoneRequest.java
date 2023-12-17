@@ -2,12 +2,19 @@ package com.globallogic.demo.model.dto.request;
 
 import com.globallogic.demo.model.entities.PhoneEntity;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 public class PhoneRequest {
 
+    @NotNull(message = "Number is mandatory")
     private Long number;
 
+    @NotBlank(message = "City code is mandatory")
     private String cityCode;
 
+    @NotBlank(message = "Country code is mandatory")
     private String countryCode;
 
     public PhoneRequest(){

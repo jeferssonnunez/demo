@@ -1,5 +1,7 @@
 package com.globallogic.demo.model.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.time.Instant;
 import java.util.UUID;
 
@@ -7,8 +9,10 @@ public class UserResponse {
 
     private UUID id;
 
+    @JsonFormat(pattern="MMM dd, yyyy hh:mm:ss a", shape = JsonFormat.Shape.STRING, timezone = "UTC")
     private Instant created;
 
+    @JsonFormat(pattern="MMM dd, yyyy hh:mm:ss a", shape = JsonFormat.Shape.STRING, timezone = "UTC")
     private Instant lastLogin;
 
     private String token;

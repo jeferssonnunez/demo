@@ -1,5 +1,6 @@
 package com.globallogic.demo.model.dto.request;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -16,6 +17,7 @@ public class UserRequest {
     @Pattern(message = "Password wrong format", regexp = "^((.*[a-z].*)(.*[A-Z].*)(.*\\d.*))$")
     private String password;
 
+    @Valid
     private List<PhoneRequest> phones;
 
     public UserRequest() {

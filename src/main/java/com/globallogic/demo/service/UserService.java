@@ -81,7 +81,7 @@ public class UserService {
         userResponse.setActive(userEntity.getActive());
         userResponse.setCreated(userEntity.getCreated());
         userResponse.setLastLogin(userEntity.getLastLogin());
-        userResponse.setToken(jwtUtil.generateToken(userEntity.getEmail()));
+        userResponse.setToken(jwtUtil.generateToken(userEntity.getEmail())); // Invalidate current token
         userResponse.setEmail(userEntity.getEmail());
         userResponse.setName(userEntity.getName());
         userResponse.setPassword(userEntity.getPassword());

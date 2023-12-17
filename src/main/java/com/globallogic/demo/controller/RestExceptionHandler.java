@@ -2,6 +2,7 @@ package com.globallogic.demo.controller;
 
 import com.globallogic.demo.model.dto.response.Error;
 import com.globallogic.demo.model.dto.response.ErrorDetail;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -37,6 +38,14 @@ public class RestExceptionHandler {
                 .collect(Collectors.joining(", "));
 
         return buildErrorResponse(HttpStatus.BAD_REQUEST.value(), errors);
+    }
+
+    @ResponseBody
+    @ExceptionHandler(ConstraintViolationException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    Error constraintErrorHandler(ConstraintViolationException ex) {
+        // DB constraints
+        return buildErrorResponse(HttpStatus.CONFLICT.value(), ex.getMessage());
     }
 
     private Error buildErrorResponse(int code, String message){
