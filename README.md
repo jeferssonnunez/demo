@@ -1,6 +1,8 @@
 # GlobalLogic demo
 This project was generated using the standard spring initializer: https://start.spring.io/
 
+Uses **SpringBoot 2.5.14** / **Gradle 7.4**
+
 Owner: jeferssonnunez@gmail.com
 
 ## Getting Started
