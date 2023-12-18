@@ -22,13 +22,11 @@ Owner: jeferssonnunez@gmail.com
 ```
 
 ## API Documentation
+Microservice to sign-up and login users
 
 ## Requirements
 - Java 11
 - Gradle 7.4
-
-## Deployment
- 
 
 ### Guides
 * [Building a RESTful Web Service](https://spring.io/guides/gs/rest-service/)
@@ -38,5 +36,3 @@ Owner: jeferssonnunez@gmail.com
 * [Accessing Data with JPA](https://spring.io/guides/gs/accessing-data-jpa/)
 * [Accessing Relational Data using JDBC with Spring](https://spring.io/guides/gs/relational-data-access/)
 * [Managing Transactions](https://spring.io/guides/gs/managing-transactions/)
-
-## Metrics
