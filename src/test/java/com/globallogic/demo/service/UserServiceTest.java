@@ -1,5 +1,6 @@
 package com.globallogic.demo.service;
 
+import com.globallogic.demo.exceptions.ExistingUserException;
 import com.globallogic.demo.model.dto.request.UserRequest;
 import com.globallogic.demo.model.entities.UserEntity;
 import com.globallogic.demo.repository.UserRepository;
@@ -38,6 +39,20 @@ class UserServiceTest {
         userService.addUser(userRequestMock);
 
         verify(userRepository).save(any());
+    }
+
+    @Test
+    public void whenExistingUser_thenThrowsException() {
+        UserRequest userRequestMock = new UserRequestBuilder().buildUserRequest();
+
+        when(userRepository.findByEmail(any())).thenReturn(Optional.of(userEntityMock));
+
+        assertThrows(ExistingUserException.class, () -> {
+            userService.addUser(userRequestMock);
+        });
+
+        verify(userRepository).findByEmail(any());
+        verifyNoMoreInteractions(userRepository);
     }
 
     @Test

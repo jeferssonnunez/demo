@@ -1,5 +1,6 @@
 package com.globallogic.demo.service;
 
+import com.globallogic.demo.exceptions.ExistingUserException;
 import com.globallogic.demo.model.dto.response.PhoneResponse;
 import com.globallogic.demo.model.dto.response.UserDetailResponse;
 import com.globallogic.demo.model.entities.PhoneEntity;
@@ -33,6 +34,8 @@ public class UserService {
     private JWTUtil jwtUtil;
 
     public UserResponse addUser(UserRequest userRequest){
+        findExistingUser(userRequest.getEmail());
+
         Set<PhoneEntity> phones = Optional.ofNullable(userRequest.getPhones()).orElse(Collections.emptyList())
                 .stream().map(PhoneRequest::toPhoneEntity).collect(Collectors.toSet());
 
@@ -45,6 +48,13 @@ public class UserService {
         phones.forEach(phoneEntity -> phoneEntity.setUser(userEntity));
 
         return userEntityToDto(userRepository.save(userEntity));
+    }
+
+    private void findExistingUser(String email) {
+        Optional<UserEntity> userEntityOptional = userRepository.findByEmail(email);
+        userEntityOptional.ifPresent(userEntity -> {
+            throw new ExistingUserException("The user already exist: "+ email);
+        } );
     }
 
     public UserDetailResponse getUser(String email){
@@ -61,7 +71,7 @@ public class UserService {
     }
 
     private UserResponse userEntityToDto(UserEntity userEntity){
-
+        // Move to a different class
         UserResponse userResponse = new UserResponse();
         userResponse.setId(userEntity.getId());
         userResponse.setActive(userEntity.getActive());

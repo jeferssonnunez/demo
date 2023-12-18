@@ -1,6 +1,7 @@
 package com.globallogic.demo.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.globallogic.demo.exceptions.ExistingUserException;
 import com.globallogic.demo.model.dto.request.UserRequest;
 import com.globallogic.demo.model.dto.response.UserDetailResponse;
 import com.globallogic.demo.model.dto.response.UserResponse;
@@ -81,6 +82,23 @@ class UserControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.active", is(userResponseMock.getActive())))
                 .andExpect(jsonPath("$.token", instanceOf(String.class)));
+    }
+
+    @Test
+    public void givenExistingUser_whenSaveUser_thenReturnJsonErrorr()
+            throws Exception {
+        UserResponse userResponseMock = getUserResponse();
+        UserRequest userRequestMock = new UserRequestBuilder().buildUserRequest();
+
+        String dtoAsString = mapper.writeValueAsString(userRequestMock);
+        when(userService.addUser(any())).thenThrow(new ExistingUserException("Test existing user"));
+
+        mvc.perform(post("/users")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(dtoAsString)
+                )
+                .andExpect(status().is4xxClientError())
+                .andExpect(jsonPath("$.errors", hasSize(1)));
     }
 
     @ParameterizedTest(name = "#{index} - Run test with wrong request = {0}")

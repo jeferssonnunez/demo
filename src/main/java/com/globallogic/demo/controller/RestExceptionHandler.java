@@ -1,5 +1,6 @@
 package com.globallogic.demo.controller;
 
+import com.globallogic.demo.exceptions.ExistingUserException;
 import com.globallogic.demo.model.dto.response.Error;
 import com.globallogic.demo.model.dto.response.ErrorDetail;
 import org.hibernate.exception.ConstraintViolationException;
@@ -42,9 +43,16 @@ public class RestExceptionHandler {
 
     @ResponseBody
     @ExceptionHandler(ConstraintViolationException.class)
-    @ResponseStatus(HttpStatus.CONFLICT)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     Error constraintErrorHandler(ConstraintViolationException ex) {
         // DB constraints
+        return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage());
+    }
+
+    @ResponseBody
+    @ExceptionHandler(ExistingUserException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    Error userExistErrorHandler(ExistingUserException ex) {
         return buildErrorResponse(HttpStatus.CONFLICT.value(), ex.getMessage());
     }
 
