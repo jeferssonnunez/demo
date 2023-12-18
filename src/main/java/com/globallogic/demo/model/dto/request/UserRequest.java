@@ -1,8 +1,9 @@
 package com.globallogic.demo.model.dto.request;
 
+import com.globallogic.demo.util.PasswordConstraint;
+
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.List;
 
@@ -14,7 +15,7 @@ public class UserRequest {
     private String email;
 
     @Size(message = "Password wrong size", min = 8, max = 12)
-    @Pattern(message = "Password wrong format", regexp = "^((.*[a-z].*)(.*[A-Z].*)(.*\\d.*))$")
+    @PasswordConstraint
     private String password;
 
     @Valid
